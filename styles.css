@@ -137,6 +137,7 @@ main {
 .current-focus {
     text-align: left;
     margin-bottom: 3rem;
+    transition: color var(--transition-speed);
 }
 
 .hero h1 {
@@ -144,6 +145,7 @@ main {
     margin-bottom: 1rem;
     font-weight: 700;
     color: var(--text-color);
+    transition: color var(--transition-speed);
 }
 
 .current-focus h2 {
@@ -152,6 +154,7 @@ main {
     color: var(--heading-color);
     position: relative;
     display: inline-block;
+    transition: color var(--transition-speed);
 }
 
 .hero h1::after,
@@ -177,6 +180,7 @@ main {
     max-width: 600px;
     margin: 0 auto;
     text-align: left;
+    transition: color var(--transition-speed);
 }
 
 .about-section p,
@@ -186,6 +190,7 @@ main {
     font-size: 1.1rem;
     line-height: 1.7;
     color: var(--text-color);
+    transition: color var(--transition-speed);
 }
 
 .current-focus small {
@@ -245,6 +250,19 @@ footer {
     padding: 1.5rem;
     color: var(--text-color);
     opacity: 0.8;
+    transition: color var(--transition-speed);
+}
+
+/* Links */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 /* Responsive Design */
@@ -284,6 +302,27 @@ footer {
     }
 }
 
+/* Print styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    header {
+        position: static;
+        padding: 1rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .social-links {
+        display: none;
+    }
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
@@ -308,14 +347,24 @@ footer {
     animation-delay: 0.4s;
 }
 
-/* Links */
-a {
-    color: var(--link-color);
-    text-decoration: none;
-    transition: color var(--transition-speed);
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-a:hover {
-    color: var(--accent-color);
-    text-decoration: underline;
+.resume-link {
+    font-size: 1.65rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+}
+
+.resume-link:hover {
+    transform: scale(1.1);
 } 
