@@ -133,25 +133,19 @@ main {
     justify-content: center;
 }
 
-.hero {
+.hero,
+.current-focus {
     text-align: left;
     margin-bottom: 3rem;
 }
 
-h1 {
+.hero h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
     color: var(--text-color);
 }
 
-.about-section {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-.about-section h2,
 .current-focus h2 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
@@ -160,7 +154,7 @@ h1 {
     display: inline-block;
 }
 
-.about-section h2::after,
+.hero h1::after,
 .current-focus h2::after {
     content: '';
     position: absolute;
@@ -173,27 +167,29 @@ h1 {
     transition: transform var(--transition-speed);
 }
 
-.about-section h2:hover::after,
+.hero h1:hover::after,
 .current-focus h2:hover::after {
     transform: scaleX(1);
 }
 
-.about-section p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    line-height: 1.7;
+.about-section,
+.focus-items {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
 }
 
-.current-focus {
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin: 0 auto 3rem;
+.about-section p,
+.current-focus small,
+.focus-items p {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color);
 }
 
 .current-focus small {
     display: block;
-    margin-bottom: 0.75rem;
-    color: var(--text-color);
     opacity: 0.7;
 }
 
@@ -202,8 +198,6 @@ h1 {
 }
 
 .focus-items p {
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -259,11 +253,12 @@ footer {
         --content-width: 90%;
     }
     
-    h1 {
+    .hero h1 {
         font-size: 2.5rem;
     }
-
+    
     .about-section p,
+    .current-focus small,
     .focus-items p {
         font-size: 1rem;
     }
@@ -274,11 +269,12 @@ footer {
 }
 
 @media (max-width: 480px) {
-    h1 {
+    .hero h1 {
         font-size: 2rem;
     }
-
+    
     .about-section p,
+    .current-focus small,
     .focus-items p {
         font-size: 0.95rem;
     }
