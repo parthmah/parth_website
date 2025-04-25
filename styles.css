@@ -12,6 +12,7 @@
     
     /* Layout */
     --content-width: 600px;
+    --header-height: 80px;
     
     /* Timing */
     --transition-speed: 0.2s;
@@ -53,7 +54,7 @@ body {
 
 /* ========== HEADER & NAVIGATION ========== */
 header {
-    padding: 1.5rem 1rem;
+    padding: 0 1rem;
     position: fixed;
     top: 0;
     width: 100%;
@@ -61,6 +62,9 @@ header {
     z-index: 1000;
     transition: background-color var(--transition-speed);
     will-change: background-color;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
 }
 
 nav {
@@ -69,6 +73,8 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .nav-links {
@@ -102,7 +108,7 @@ nav {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,11 +122,11 @@ nav {
 main {
     max-width: var(--content-width);
     margin: 0 auto;
-    padding: 7rem 1rem 2rem;
+    padding: calc(var(--header-height) + 2rem) 1rem 2rem;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    min-height: calc(100vh - var(--header-height));
 }
 
 /* Section containers */
@@ -298,6 +304,13 @@ a:hover {
 @media (max-width: 768px) {
     :root {
         --content-width: 90%;
+        --header-height: 70px;
+    }
+    
+    main {
+        padding-top: calc(var(--header-height) + 1rem);
+        min-height: calc(100vh - var(--header-height));
+        justify-content: flex-start;
     }
     
     .hero h1 {
@@ -312,10 +325,19 @@ a:hover {
 
     .social-links {
         gap: 0.75rem;
+        margin-top: 2rem;
     }
 }
 
 @media (max-width: 480px) {
+    :root {
+        --header-height: 60px;
+    }
+    
+    main {
+        padding-top: var(--header-height);
+    }
+    
     .hero h1 {
         font-size: 2rem;
     }
@@ -328,6 +350,12 @@ a:hover {
 
     .social-links {
         gap: 0.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .hero,
+    .current-focus {
+        margin-bottom: 2rem;
     }
 }
 
