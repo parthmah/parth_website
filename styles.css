@@ -14,7 +14,7 @@
     --content-width: 600px;
     
     /* Timing */
-    --transition-speed: 0.3s;
+    --transition-speed: 0.2s;
 }
 
 /* Dark theme overrides */
@@ -48,6 +48,7 @@ body {
     transition: background-color var(--transition-speed), color var(--transition-speed);
     display: flex;
     flex-direction: column;
+    will-change: background-color, color;
 }
 
 /* ========== HEADER & NAVIGATION ========== */
@@ -59,6 +60,7 @@ header {
     background-color: var(--bg-color);
     z-index: 1000;
     transition: background-color var(--transition-speed);
+    will-change: background-color;
 }
 
 nav {
@@ -90,7 +92,8 @@ nav {
 }
 
 .home-link:hover,
-.resume-link:hover {
+.resume-link:hover,
+#theme-toggle:hover {
     transform: scale(1.1);
 }
 
@@ -109,16 +112,11 @@ nav {
     transition: transform var(--transition-speed);
 }
 
-#theme-toggle:hover {
-    transform: scale(1.1);
-}
-
 /* ========== MAIN CONTENT ========== */
 main {
     max-width: var(--content-width);
     margin: 0 auto;
     padding: 7rem 1rem 2rem;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -130,7 +128,16 @@ main {
 .current-focus {
     text-align: left;
     margin-bottom: 3rem;
+}
+
+/* Headings */
+.hero h1,
+.about-section h2,
+.current-focus h2 {
+    color: var(--text-color);
     transition: color var(--transition-speed);
+    position: relative;
+    display: inline-block;
 }
 
 /* Main heading */
@@ -138,22 +145,18 @@ main {
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
-    color: var(--text-color);
-    transition: color var(--transition-speed);
 }
 
 /* Section headings */
+.about-section h2,
 .current-focus h2 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
-    color: var(--heading-color);
-    position: relative;
-    display: inline-block;
-    transition: color var(--transition-speed);
 }
 
 /* Heading hover effect */
 .hero h1::after,
+.about-section h2::after,
 .current-focus h2::after {
     content: '';
     position: absolute;
@@ -167,6 +170,7 @@ main {
 }
 
 .hero h1:hover::after,
+.about-section h2:hover::after,
 .current-focus h2:hover::after {
     transform: scaleX(1);
 }
@@ -177,7 +181,6 @@ main {
     max-width: 600px;
     margin: 0 auto;
     text-align: left;
-    transition: color var(--transition-speed);
 }
 
 /* Text styles */
@@ -267,11 +270,11 @@ a:hover {
 
 /* ========== ANIMATIONS ========== */
 @keyframes fadeIn {
-    from {
+    0% {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
     }
-    to {
+    100% {
         opacity: 1;
         transform: translateY(0);
     }
@@ -280,15 +283,15 @@ a:hover {
 .hero, 
 .current-focus, 
 .social-links {
-    animation: fadeIn 0.8s ease-out forwards;
+    animation: fadeIn 0.5s ease-out forwards;
 }
 
 .current-focus {
-    animation-delay: 0.2s;
+    animation-delay: 0.1s;
 }
 
 .social-links {
-    animation-delay: 0.4s;
+    animation-delay: 0.2s;
 }
 
 /* ========== RESPONSIVE DESIGN ========== */
