@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>404 – Page Not Found | Parth Maheshwari</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .notfound-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+        .notfound-container h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .notfound-container p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .notfound-container a {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-color);
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .notfound-container a:hover {
+            background: var(--link-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="home-link" aria-label="Home">🏠</a>
+            <div class="nav-links">
+                <a href="/resume.pdf" target="_blank" class="resume-link" aria-label="Resume">📄</a>
+                <button id="theme-toggle" aria-label="Toggle dark mode">🌚</button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="notfound-container">
+            <div class="notfound-emoji home-link" style="font-size:8rem; margin-bottom:3rem; cursor:pointer;" aria-hidden="true">⛓️‍💥</div>
+            <h1>404 - Uh Oh!</h1>
+            <a href="/">Go to Homepage</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Parth Maheshwari. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+      // Use the same hover animation as the main site by toggling a class
+      document.querySelectorAll('.home-link, .resume-link').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+          link.classList.add('nav-hover');
+        });
+        link.addEventListener('mouseleave', () => {
+          link.classList.remove('nav-hover');
+        });
+      });
+    </script>
+</body>
+</html>

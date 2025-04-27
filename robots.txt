@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://parthmah.com/sitemap.xml
