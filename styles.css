@@ -396,6 +396,15 @@ a:hover {
         font-size: 2.5rem;
     }
     
+    .about-section,
+    .focus-items {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
     .about-section p,
     .current-focus small,
     .focus-items p {
@@ -424,6 +433,15 @@ a:hover {
     
     .hero h1 {
         font-size: 2rem;
+    }
+    
+    .about-section,
+    .focus-items {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
     
     .about-section p,
@@ -500,4 +518,20 @@ a:hover {
     justify-content: center;
     align-items: center;
     padding: var(--spacing-md) var(--spacing-xs); /* Reduce padding */
+}
+
+/* Sticky footer fix for all screens */
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex: 1 0 auto;
+}
+.footer {
+    flex-shrink: 0;
 }
