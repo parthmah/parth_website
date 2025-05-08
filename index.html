@@ -12,6 +12,7 @@
     <!-- Performance optimizations -->
     <link rel="preload" href="styles.css" as="style">
     <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="components/include.js" as="script">
     
     <!-- Title and favicon -->
     <title>Parth Maheshwari</title>
@@ -33,9 +34,36 @@
 
     <!-- Critical CSS -->
     <style>
-        :root{--bg-color:#FFFFFF;--text-color:#1A1A1A;--transition-speed:0.2s}
-        [data-theme="dark"]{--bg-color:#121212;--text-color:#F9FAFB}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background-color:var(--bg-color);color:var(--text-color);margin:0;transition:background-color var(--transition-speed),color var(--transition-speed)}
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #1A1A1A;
+            --accent-color: #3B82F6;
+            --subtle-color: #F3F4F6;
+            --border-color: #E5E7EB;
+            --hover-color: #F3F4F6;
+            --heading-color: #1F2937;
+            --link-color: #2563EB;
+            --content-width: 600px;
+            --header-height: 80px;
+            --transition-speed: 0.2s;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #F9FAFB;
+            --accent-color: #60A5FA;
+            --subtle-color: #2D2D2D;
+            --border-color: #374151;
+            --hover-color: #1F2937;
+            --heading-color: #F3F4F6;
+            --link-color: #93C5FD;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
     </style>
     
     <!-- Stylesheets -->
@@ -48,16 +76,8 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://parthmah.com data:; script-src 'self' https://analytics.parthmah.com; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
 </head>
 <body>
-    <!-- Header with navigation -->
-    <header>
-        <nav>
-            <a href="/" class="home-link" aria-label="Home">🏠</a>
-            <div class="nav-links">
-                <a href="/resume.pdf" target="_blank" class="resume-link" aria-label="Resume">📄</a>
-                <button id="theme-toggle" aria-label="Toggle dark mode">🌚</button>
-            </div>
-        </nav>
-    </header>
+    <!-- Header component -->
+    <div id="header-component"></div>
 
     <!-- Main content -->
     <main>
@@ -105,12 +125,11 @@
         <!-- <img src="images/example.jpg" alt="Description" loading="lazy"> -->
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Parth Maheshwari. All rights reserved.</p>
-    </footer>
+    <!-- Footer component -->
+    <div id="footer-component"></div>
 
     <!-- Scripts -->
+    <script src="components/include.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
