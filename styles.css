@@ -96,8 +96,8 @@ body {
 .hover-scale:hover { transform: scale(1.1); }
 .hover-lift:hover { transform: translateY(-2px); }
 
-/* ========== HEADER & NAVIGATION ========== */
-header {
+/* ========== HEADER & NAVIGATION (BEM) ========== */
+.header {
     padding: 0;
     position: fixed;
     top: 0;
@@ -112,7 +112,7 @@ header {
     justify-content: center;
 }
 
-nav {
+.header__nav {
     max-width: var(--content-width);
     width: 100%;
     margin: 0 auto;
@@ -122,16 +122,15 @@ nav {
     height: 100%;
 }
 
-.nav-links {
+.header__nav-links {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
 }
 
-/* Navigation icons - shared styles */
-.home-link,
-.resume-link,
-#theme-toggle {
+.header__link,
+.header__resume,
+.header__blog {
     font-size: 1.65rem;
     text-decoration: none;
     color: var(--color-text);
@@ -141,10 +140,27 @@ nav {
     justify-content: center;
     width: 44px;
     height: 44px;
+}
+
+.header__link:hover,
+.header__resume:hover,
+.header__blog:hover,
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+#theme-toggle {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    font-size: 1.65rem;
+    transition: transform var(--transition-speed);
 }
 
 /* ========== MAIN CONTENT ========== */
@@ -190,7 +206,7 @@ main {
 
 .notfound-container h1 {
     font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm); /* Reduce bottom margin */
 }
 
 /* Heading hover effect */
@@ -320,6 +336,10 @@ a:hover {
     text-decoration: none;
     font-weight: 600;
     transition: background var(--transition-speed);
+    /* Remove border */
+    border: none;
+    /* Make text larger */
+    font-size: 1.25rem;
 }
 
 .button:hover {
@@ -338,20 +358,22 @@ a:hover {
     margin: 0 auto;
     max-width: var(--content-width);
     padding: 0;
+    gap: var(--spacing-sm); /* Reduce vertical spacing between children */
 }
 
-.notfound-container h1 {
-    font-size: var(--font-size-2xl);
-    margin-bottom: var(--spacing-md);
+.notfound-emoji {
+    font-size: 8rem;
+    margin-bottom: var(--spacing-md); /* Reduce bottom margin */
+    cursor: pointer;
 }
 
 .notfound-container p {
     font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xs); /* Reduce bottom margin */
 }
 
 .notfound-container .button {
-    margin-top: var(--spacing-md);
+    margin-top: var(--spacing-sm); /* Reduce top margin */
     display: inline-block;
 }
 
@@ -444,8 +466,8 @@ a:hover {
     }
 }
 
-/* ========== FOOTER ========== */
-footer {
+/* ========== FOOTER (BEM) ========== */
+.footer {
     text-align: center;
     padding: var(--spacing-md);
     color: var(--color-text);
@@ -458,6 +480,18 @@ footer {
     flex-shrink: 0;
 }
 
+.footer__copyright {
+    margin: 0;
+    font-size: var(--font-size-sm);
+}
+
+/* ========== NOTFOUND EMOJI ========== */
+.notfound-emoji {
+    font-size: 8rem;
+    margin-bottom: var(--spacing-md); /* Reduce bottom margin */
+    cursor: pointer;
+}
+
 /* Utility for vertically centered pages (404, blog) */
 .centered-page {
     min-height: 60vh;
@@ -465,5 +499,5 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-xs); /* Reduce padding */
 }

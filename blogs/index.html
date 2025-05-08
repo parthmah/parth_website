@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Blog | Parth Maheshwari</title>
     <link rel="stylesheet" href="/styles.css">
-    <link rel="preload" href="/components/include.js" as="script">
     <link rel="icon" type="image/png" href="/fav/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/fav/favicon.svg" />
     <link rel="shortcut icon" href="/fav/favicon.ico" />
@@ -21,24 +20,24 @@
             <div class="notfound-emoji home-link" style="font-size:8rem; margin-bottom:3rem; cursor:pointer;" aria-hidden="true">🙇🏻‍♂️</div>
             <h1>Blog</h1>
             <p>Coming soon… or eventually. Let's be honest.</p>
-            <a href="/" class="button">Return to Homepage</a>
+            <!-- Use button component for homepage button -->
+            <div id="return-home-btn"></div>
         </div>
     </main>
 
     <!-- Footer component -->
     <div id="footer-component"></div>
 
-    <script src="/components/include.js"></script>
-    <script src="/script.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/components.js"></script>
+    <script src="/js/ui.js"></script>
     <script>
-      // Use the same hover animation as the main site by toggling a class
-      document.querySelectorAll('.home-link').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          link.classList.add('nav-hover');
-        });
-        link.addEventListener('mouseleave', () => {
-          link.classList.remove('nav-hover');
-        });
+      // Dynamically load the button component for accessibility and consistency
+      fetch('/components/button.html').then(r => r.text()).then(html => {
+        document.getElementById('return-home-btn').innerHTML = html.replace('{{text}}', 'Return to Homepage').replace('{{ariaLabel}}', 'Return to Homepage');
+        // Make the button a link for navigation
+        const btn = document.querySelector('#return-home-btn .button');
+        btn.addEventListener('click', () => { window.location.href = '/'; });
       });
     </script>
 </body>
