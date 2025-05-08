@@ -3,51 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>404 – Page Not Found | Parth Maheshwari</title>
+    <title>Blog | Parth Maheshwari</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="preload" href="/components/include.js" as="script">
-    <style>
-        .notfound-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-            text-align: center;
-        }
-        .notfound-container h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        .notfound-container p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-        }
-        .notfound-container a {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: var(--accent-color);
-            color: #fff;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .notfound-container a:hover {
-            background: var(--link-color);
-        }
-    </style>
+    <link rel="icon" type="image/png" href="/fav/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/fav/favicon.svg" />
+    <link rel="shortcut icon" href="/fav/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png" />
+    <link rel="manifest" href="/fav/site.webmanifest" />
 </head>
 <body>
     <!-- Header component -->
     <div id="header-component"></div>
 
-    <main>
+    <main class="centered-page">
         <div class="notfound-container">
             <div class="notfound-emoji home-link" style="font-size:8rem; margin-bottom:3rem; cursor:pointer;" aria-hidden="true">🙇🏻‍♂️</div>
             <h1>Blog</h1>
             <p>Coming soon… or eventually. Let's be honest.</p>
-            <a href="/">Return to Homepage</a>
+            <a href="/" class="button">Return to Homepage</a>
         </div>
     </main>
 
