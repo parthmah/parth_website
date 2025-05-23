@@ -7,7 +7,8 @@
   },
   "private": true,
   "devDependencies": {
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "sharp-heic": "^0.0.1-security"
   },
   "engines": {
     "node": ">=18.17.0"

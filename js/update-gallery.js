@@ -7,25 +7,52 @@ const PHOTOS_DIR = path.join(__dirname, '..', 'images', 'personal_photos');
 const JSON_FILE = path.join(PHOTOS_DIR, 'images.json');
 const SUPPORTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP'];
 const CONVERTED_EXTENSION = '.jpg';
+const HEIC_EXTENSIONS = ['.heic', '.HEIC'];
 
 // Function to convert image to JPG
 async function convertToJpg(filePath) {
     const fileName = path.basename(filePath);
     const fileNameWithoutExt = path.parse(fileName).name;
     const newFilePath = path.join(PHOTOS_DIR, `${fileNameWithoutExt}${CONVERTED_EXTENSION}`);
+    const ext = path.extname(filePath).toLowerCase();
     
     try {
         console.log(`🔄 Converting ${fileName} to JPG...`);
-        await sharp(filePath)
-            .jpeg({ quality: 90 }) // High quality JPG
-            .toFile(newFilePath);
+        
+        // Special handling for HEIC files
+        if (HEIC_EXTENSIONS.includes(ext)) {
+            await sharp(filePath, { input: { failOn: 'none' } })
+                .jpeg({ quality: 90, mozjpeg: true })
+                .toFile(newFilePath);
+        } else {
+            // Handle other formats
+            await sharp(filePath)
+                .jpeg({ quality: 90, mozjpeg: true })
+                .toFile(newFilePath);
+        }
         
         // Delete the original file after successful conversion
         fs.unlinkSync(filePath);
         console.log(`✅ Converted ${fileName} to JPG`);
         return newFilePath;
     } catch (error) {
-        console.error(`❌ Error converting ${fileName}:`, error);
+        console.error(`❌ Error converting ${fileName}:`, error.message);
+        // If conversion fails, try to use a fallback method
+        try {
+            console.log(`🔄 Trying fallback conversion for ${fileName}...`);
+            // Use a different approach for HEIC files
+            if (HEIC_EXTENSIONS.includes(ext)) {
+                const { execSync } = require('child_process');
+                // Use sips (built into macOS) as a fallback
+                execSync(`sips -s format jpeg "${filePath}" --out "${newFilePath}"`);
+                fs.unlinkSync(filePath);
+                console.log(`✅ Converted ${fileName} to JPG using fallback method`);
+                return newFilePath;
+            }
+        } catch (fallbackError) {
+            console.error(`❌ Fallback conversion also failed for ${fileName}:`, fallbackError.message);
+            return null;
+        }
         return null;
     }
 }
@@ -36,6 +63,7 @@ async function processFiles() {
         const files = fs.readdirSync(PHOTOS_DIR);
         const convertedFiles = [];
         const supportedFiles = [];
+        const failedFiles = [];
 
         // Process each file
         for (const file of files) {
@@ -49,11 +77,13 @@ async function processFiles() {
 
             if (SUPPORTED_EXTENSIONS.includes(ext)) {
                 supportedFiles.push(file);
-            } else {
+            } else if (HEIC_EXTENSIONS.includes(ext) || !SUPPORTED_EXTENSIONS.includes(ext)) {
                 // Try to convert unsupported files
                 const convertedPath = await convertToJpg(filePath);
                 if (convertedPath) {
                     convertedFiles.push(path.basename(convertedPath));
+                } else {
+                    failedFiles.push(file);
                 }
             }
         }
@@ -70,11 +100,18 @@ async function processFiles() {
         updateJsonFile(images);
 
         // Print summary
-        if (convertedFiles.length > 0) {
+        if (convertedFiles.length > 0 || failedFiles.length > 0) {
             console.log('\n📊 Conversion Summary:');
-            console.log(`✅ Converted ${convertedFiles.length} files to JPG`);
-            console.log('Converted files:');
-            convertedFiles.forEach(file => console.log(`  - ${file}`));
+            if (convertedFiles.length > 0) {
+                console.log(`✅ Successfully converted ${convertedFiles.length} files to JPG`);
+                console.log('Converted files:');
+                convertedFiles.forEach(file => console.log(`  - ${file}`));
+            }
+            if (failedFiles.length > 0) {
+                console.log(`\n❌ Failed to convert ${failedFiles.length} files:`);
+                failedFiles.forEach(file => console.log(`  - ${file}`));
+                console.log('\nPlease try converting these files manually using Preview or another image editor.');
+            }
         }
         console.log(`\n📸 Total images in gallery: ${images.length}`);
 
