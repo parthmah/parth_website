@@ -10,30 +10,12 @@ async function initGallery() {
     let currentIndex = 0;
     let images = [];
 
-    // Fetch the directory listing
+    // Fetch the image list from JSON
     try {
-        const response = await fetch('/images/personal_photos/');
-        const text = await response.text();
-        
-        // Parse the directory listing to find image files
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        const links = Array.from(doc.querySelectorAll('a'));
-        
-        // Filter for image files and create image objects
-        images = links
-            .map(link => link.href)
-            .filter(href => {
-                const ext = href.toLowerCase().split('.').pop();
-                return ['jpg', 'jpeg', 'png', 'webp'].includes(ext);
-            })
-            .map(href => ({
-                src: href,
-                alt: 'Photography by Parth Maheshwari'
-            }));
-
-        // Sort images by filename for consistent ordering
-        images.sort((a, b) => a.src.localeCompare(b.src));
+        const response = await fetch('/images/personal_photos/images.json');
+        if (!response.ok) throw new Error('Failed to load image list');
+        const data = await response.json();
+        images = data.images;
 
         // Create gallery items
         images.forEach((image, index) => {

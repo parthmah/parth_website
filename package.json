@@ -1,0 +1,9 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "Personal website with photo gallery",
+  "scripts": {
+    "update-gallery": "node js/update-gallery.js"
+  },
+  "private": true
+} 
