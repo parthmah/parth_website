@@ -203,6 +203,32 @@
                 font-size: 18px;
             }
         }
+
+        /* Add error message styles */
+        .error-message {
+            text-align: center;
+            color: var(--color-text);
+            padding: var(--spacing-lg);
+            background: var(--color-subtle);
+            border-radius: 8px;
+            margin: var(--spacing-lg) 0;
+        }
+
+        .gallery-item.error {
+            background-color: var(--color-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .gallery-item.error::after {
+            content: 'Failed to load image';
+            opacity: 0.7;
+        }
     </style>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -239,105 +265,6 @@
     <script src="js/theme.js"></script>
     <script src="js/components.js"></script>
     <script src="js/ui.js"></script>
-    
-    <!-- Gallery Script -->
-    <script>
-        // Gallery configuration
-        const galleryConfig = {
-            images: [
-                // Placeholder images - replace with your actual images
-                { src: 'https://picsum.photos/800/800?random=1', alt: 'Photo 1' },
-                { src: 'https://picsum.photos/800/800?random=2', alt: 'Photo 2' },
-                { src: 'https://picsum.photos/800/800?random=3', alt: 'Photo 3' },
-                { src: 'https://picsum.photos/800/800?random=4', alt: 'Photo 4' },
-                { src: 'https://picsum.photos/800/800?random=5', alt: 'Photo 5' },
-                { src: 'https://picsum.photos/800/800?random=6', alt: 'Photo 6' },
-                { src: 'https://picsum.photos/800/800?random=7', alt: 'Photo 7' },
-                { src: 'https://picsum.photos/800/800?random=8', alt: 'Photo 8' },
-                { src: 'https://picsum.photos/800/800?random=9', alt: 'Photo 9' },
-                { src: 'https://picsum.photos/800/800?random=10', alt: 'Photo 10' },
-                { src: 'https://picsum.photos/800/800?random=11', alt: 'Photo 11' },
-                { src: 'https://picsum.photos/800/800?random=12', alt: 'Photo 12' }
-            ]
-        };
-
-        // Initialize gallery
-        function initGallery() {
-            const gallery = document.getElementById('gallery');
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImage = document.getElementById('lightbox-image');
-            const prevButton = document.getElementById('prev-button');
-            const nextButton = document.getElementById('next-button');
-            const closeButton = document.getElementById('close-button');
-            
-            let currentIndex = 0;
-
-            // Create gallery items
-            galleryConfig.images.forEach((image, index) => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `
-                    <img src="${image.src}" 
-                         alt="${image.alt}" 
-                         loading="lazy"
-                         onload="this.parentElement.classList.add('loaded')"
-                         onclick="openLightbox(${index})">
-                `;
-                gallery.appendChild(item);
-            });
-
-            // Lightbox functions
-            window.openLightbox = (index) => {
-                currentIndex = index;
-                updateLightboxImage();
-                lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            };
-
-            function updateLightboxImage() {
-                const image = galleryConfig.images[currentIndex];
-                lightboxImage.src = image.src;
-                lightboxImage.alt = image.alt;
-            }
-
-            function closeLightbox() {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            function navigateGallery(direction) {
-                currentIndex = (currentIndex + direction + galleryConfig.images.length) % galleryConfig.images.length;
-                updateLightboxImage();
-            }
-
-            // Event listeners
-            prevButton.addEventListener('click', () => navigateGallery(-1));
-            nextButton.addEventListener('click', () => navigateGallery(1));
-            closeButton.addEventListener('click', closeLightbox);
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox();
-            });
-
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (!lightbox.classList.contains('active')) return;
-                
-                switch(e.key) {
-                    case 'ArrowLeft':
-                        navigateGallery(-1);
-                        break;
-                    case 'ArrowRight':
-                        navigateGallery(1);
-                        break;
-                    case 'Escape':
-                        closeLightbox();
-                        break;
-                }
-            });
-        }
-
-        // Initialize gallery when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initGallery);
-    </script>
+    <script src="js/gallery.js"></script>
 </body>
 </html> 
