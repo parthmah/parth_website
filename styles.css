@@ -130,7 +130,8 @@ body {
 
 .header__link,
 .header__resume,
-.header__blog {
+.header__blog,
+.header__photos {
     font-size: 1.65rem;
     text-decoration: none;
     color: var(--color-text);
@@ -145,6 +146,7 @@ body {
 .header__link:hover,
 .header__resume:hover,
 .header__blog:hover,
+.header__photos:hover,
 #theme-toggle:hover {
     transform: scale(1.1);
 }
