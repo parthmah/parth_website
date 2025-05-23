@@ -1,4 +1,14 @@
 // gallery.js: Handles gallery initialization and image loading
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 async function initGallery() {
     const gallery = document.getElementById('gallery');
     const lightbox = document.getElementById('lightbox');
@@ -15,7 +25,8 @@ async function initGallery() {
         const response = await fetch('/images/personal_photos/images.json');
         if (!response.ok) throw new Error('Failed to load image list');
         const data = await response.json();
-        images = data.images;
+        // Shuffle the images array
+        images = shuffleArray([...data.images]);
 
         // Create gallery items
         images.forEach((image, index) => {
