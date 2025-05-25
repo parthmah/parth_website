@@ -24,10 +24,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: |
-          if [ -f package.json ]; then npm ci; fi
-
       - name: Run update-gallery.js to update images.json
         run: node js/update-gallery.js
 
