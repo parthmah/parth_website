@@ -1,0 +1,44 @@
+name: Update Photo Gallery JSON
+
+on:
+  push:
+    paths:
+      - 'images/personal_photos/**'
+      - '.github/workflows/update-gallery.yml'
+      - 'js/update-gallery.js'
+      - 'images/images.json'
+      - 'photos.html'
+      - 'styles.css'
+      - 'components/header.html'
+      - 'index.html'
+
+jobs:
+  update-gallery-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then npm ci; fi
+
+      - name: Run update-gallery.js to update images.json
+        run: node js/update-gallery.js
+
+      - name: Commit and push if images.json changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet images/images.json; then
+            echo 'No changes to commit.'
+          else
+            git add images/images.json
+            git commit -m 'chore: update images.json [auto]' || echo 'No changes to commit.'
+            git push
+          fi
