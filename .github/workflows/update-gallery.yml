@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if [ -f package.json ]; then npm ci; fi
+          if [ -f package.json ]; then npm install; fi
 
       - name: Install sharp dependency
         run: npm install sharp
