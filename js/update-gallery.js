@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+const crypto = require('crypto');
 
 // Configuration
 const PHOTOS_DIR = path.join(__dirname, '..', 'images', 'personal_photos');
@@ -8,6 +9,12 @@ const JSON_FILE = path.join(PHOTOS_DIR, 'images.json');
 const SUPPORTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP'];
 const CONVERTED_EXTENSION = '.jpg';
 const HEIC_EXTENSIONS = ['.heic', '.HEIC'];
+
+// Function to calculate file hash
+function calculateFileHash(filePath) {
+    const fileBuffer = fs.readFileSync(filePath);
+    return crypto.createHash('md5').update(fileBuffer).digest('hex');
+}
 
 // Function to convert image to JPG
 async function convertToJpg(filePath) {
@@ -57,63 +64,128 @@ async function convertToJpg(filePath) {
     }
 }
 
+// Function to get all image files in directory
+function getAllImageFiles() {
+    const files = fs.readdirSync(PHOTOS_DIR);
+    return files.filter(file => {
+        const filePath = path.join(PHOTOS_DIR, file);
+        const ext = path.extname(file).toLowerCase();
+        return !fs.statSync(filePath).isDirectory() && 
+               file !== 'images.json' && 
+               (SUPPORTED_EXTENSIONS.includes(ext) || HEIC_EXTENSIONS.includes(ext));
+    });
+}
+
 // Function to process all files in directory
 async function processFiles() {
     try {
-        const files = fs.readdirSync(PHOTOS_DIR);
+        // Get current state from JSON
+        let currentState = {};
+        if (fs.existsSync(JSON_FILE)) {
+            const jsonContent = JSON.parse(fs.readFileSync(JSON_FILE, 'utf8'));
+            currentState = jsonContent.images.reduce((acc, img) => {
+                const fileName = path.basename(img.src);
+                acc[fileName] = img;
+                return acc;
+            }, {});
+        }
+
+        // Get all current image files
+        const allImageFiles = getAllImageFiles();
         const convertedFiles = [];
         const supportedFiles = [];
         const failedFiles = [];
+        const newImages = [];
+        let hasChanges = false;
 
         // Process each file
-        for (const file of files) {
+        for (const file of allImageFiles) {
             const filePath = path.join(PHOTOS_DIR, file);
             const ext = path.extname(file).toLowerCase();
 
-            // Skip directories and the JSON file
-            if (fs.statSync(filePath).isDirectory() || file === 'images.json') {
-                continue;
-            }
+            // Check if file is new or modified
+            const fileHash = calculateFileHash(filePath);
+            const isNewOrModified = !currentState[file] || currentState[file].hash !== fileHash;
 
-            if (SUPPORTED_EXTENSIONS.includes(ext)) {
-                supportedFiles.push(file);
-            } else if (HEIC_EXTENSIONS.includes(ext) || !SUPPORTED_EXTENSIONS.includes(ext)) {
-                // Try to convert unsupported files
-                const convertedPath = await convertToJpg(filePath);
-                if (convertedPath) {
-                    convertedFiles.push(path.basename(convertedPath));
-                } else {
-                    failedFiles.push(file);
+            if (isNewOrModified) {
+                hasChanges = true;
+                if (SUPPORTED_EXTENSIONS.includes(ext)) {
+                    supportedFiles.push(file);
+                    newImages.push({
+                        src: `/images/personal_photos/${file}`,
+                        alt: 'Photography by Parth Maheshwari',
+                        hash: fileHash
+                    });
+                } else if (HEIC_EXTENSIONS.includes(ext) || !SUPPORTED_EXTENSIONS.includes(ext)) {
+                    // Try to convert unsupported files
+                    const convertedPath = await convertToJpg(filePath);
+                    if (convertedPath) {
+                        const convertedFile = path.basename(convertedPath);
+                        convertedFiles.push(convertedFile);
+                        newImages.push({
+                            src: `/images/personal_photos/${convertedFile}`,
+                            alt: 'Photography by Parth Maheshwari',
+                            hash: calculateFileHash(convertedPath)
+                        });
+                    } else {
+                        failedFiles.push(file);
+                    }
+                }
+            } else {
+                // Keep existing image entry
+                newImages.push(currentState[file]);
+            }
+        }
+
+        // Check for removed files
+        const currentFiles = new Set(newImages.map(img => path.basename(img.src)));
+        const removedFiles = Object.keys(currentState).filter(file => !currentFiles.has(file));
+        
+        if (removedFiles.length > 0) {
+            hasChanges = true;
+            console.log('\n🗑️ Removed files from gallery:');
+            removedFiles.forEach(file => console.log(`  - ${file}`));
+        }
+
+        // Only update if there are changes
+        if (hasChanges) {
+            // Sort images by filename
+            newImages.sort((a, b) => {
+                const nameA = path.basename(a.src);
+                const nameB = path.basename(b.src);
+                return nameA.localeCompare(nameB);
+            });
+
+            // Update JSON file
+            const jsonContent = {
+                images: newImages,
+                lastUpdated: new Date().toISOString(),
+                totalImages: newImages.length
+            };
+
+            fs.writeFileSync(JSON_FILE, JSON.stringify(jsonContent, null, 4));
+            console.log(`\n✅ Successfully updated ${JSON_FILE}`);
+
+            // Print summary
+            if (convertedFiles.length > 0 || failedFiles.length > 0) {
+                console.log('\n📊 Conversion Summary:');
+                if (convertedFiles.length > 0) {
+                    console.log(`✅ Successfully converted ${convertedFiles.length} files to JPG`);
+                    console.log('Converted files:');
+                    convertedFiles.forEach(file => console.log(`  - ${file}`));
+                }
+                if (failedFiles.length > 0) {
+                    console.log(`\n❌ Failed to convert ${failedFiles.length} files:`);
+                    failedFiles.forEach(file => console.log(`  - ${file}`));
+                    console.log('\nPlease try converting these files manually using Preview or another image editor.');
                 }
             }
+            console.log(`\n📸 Total images in gallery: ${newImages.length}`);
+            return true;
+        } else {
+            console.log('No changes detected in the gallery.');
+            return false;
         }
-
-        // Combine and sort all files
-        const allFiles = [...supportedFiles, ...convertedFiles].sort();
-        
-        // Update JSON file
-        const images = allFiles.map(file => ({
-            src: `/images/personal_photos/${file}`,
-            alt: 'Photography by Parth Maheshwari'
-        }));
-
-        updateJsonFile(images);
-
-        // Print summary
-        if (convertedFiles.length > 0 || failedFiles.length > 0) {
-            console.log('\n📊 Conversion Summary:');
-            if (convertedFiles.length > 0) {
-                console.log(`✅ Successfully converted ${convertedFiles.length} files to JPG`);
-                console.log('Converted files:');
-                convertedFiles.forEach(file => console.log(`  - ${file}`));
-            }
-            if (failedFiles.length > 0) {
-                console.log(`\n❌ Failed to convert ${failedFiles.length} files:`);
-                failedFiles.forEach(file => console.log(`  - ${file}`));
-                console.log('\nPlease try converting these files manually using Preview or another image editor.');
-            }
-        }
-        console.log(`\n📸 Total images in gallery: ${images.length}`);
 
     } catch (error) {
         console.error('Error processing files:', error);
@@ -121,25 +193,11 @@ async function processFiles() {
     }
 }
 
-// Function to update the JSON file
-function updateJsonFile(images) {
-    const jsonContent = {
-        images: images
-    };
-
-    try {
-        fs.writeFileSync(JSON_FILE, JSON.stringify(jsonContent, null, 4));
-        console.log(`\n✅ Successfully updated ${JSON_FILE}`);
-    } catch (error) {
-        console.error('Error writing JSON file:', error);
-        process.exit(1);
-    }
-}
-
 // Main function
 async function main() {
     console.log('🔄 Processing gallery images...');
-    await processFiles();
+    const hasChanges = await processFiles();
+    process.exit(hasChanges ? 0 : 1);
 }
 
 // Run the script

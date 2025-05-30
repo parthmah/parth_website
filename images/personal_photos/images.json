@@ -2,51 +2,90 @@
     "images": [
         {
             "src": "/images/personal_photos/DSCF5337.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "8e7a386e671f4b01e31bdde8c56d93d4"
         },
         {
             "src": "/images/personal_photos/DSCF5428.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "11e5da5a45cd7bb4b650bdd3131e9eb5"
         },
         {
             "src": "/images/personal_photos/DSCF5441.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "a6123f48e98e00eac579c863e6146753"
         },
         {
             "src": "/images/personal_photos/DSCF5542.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "241fab1b3943e1e8cbff3fa9097e878e"
         },
         {
             "src": "/images/personal_photos/DSCF5622.jpg",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "c27cf2d39457e7d79f085c9a60eef38d"
         },
         {
             "src": "/images/personal_photos/DSCF5628.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "6b2a03ca56c43721411050386a7dd8b5"
         },
         {
             "src": "/images/personal_photos/DSCF5659.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "4a646354caf91c19a09d1a994dfe9c87"
         },
         {
             "src": "/images/personal_photos/DSCF5661.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "f8dc051daf13ff067fb27ca625904c53"
         },
         {
             "src": "/images/personal_photos/DSCF5700.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "efb759cdae0f0a69c81fbae079e2e9f0"
         },
         {
             "src": "/images/personal_photos/DSCF5786.JPG",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "c7de4d8c604b4eb94aa4936e7721b43e"
+        },
+        {
+            "src": "/images/personal_photos/DSCF6043.JPG",
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "d6553372a592af4fce970d1e69ae3531"
+        },
+        {
+            "src": "/images/personal_photos/DSCF6153.jpg",
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "786bfcf6bedbd854121e94a0ab70063e"
+        },
+        {
+            "src": "/images/personal_photos/DSCF6305.jpg",
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "186dc565b201a5e1c4c939a3050fa0f0"
+        },
+        {
+            "src": "/images/personal_photos/DSCF6346.jpg",
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "e0b58c5347b33b4ab3e0cea1437ac060"
+        },
+        {
+            "src": "/images/personal_photos/DSCF6370.JPG",
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "2f8ce81cb7e6a76aae2d35daa783a66b"
         },
         {
             "src": "/images/personal_photos/IMG_5751.jpg",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "da96be337ae55fc0080f21b29f8efaf6"
         },
         {
             "src": "/images/personal_photos/IMG_6320.jpg",
-            "alt": "Photography by Parth Maheshwari"
+            "alt": "Photography by Parth Maheshwari",
+            "hash": "997bc03745113b7b1258e2ff0ba7bb8b"
         }
-    ]
+    ],
+    "lastUpdated": "2025-05-30T11:42:49.876Z",
+    "totalImages": 17
 }
