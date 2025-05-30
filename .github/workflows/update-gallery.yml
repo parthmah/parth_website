@@ -34,6 +34,10 @@ jobs:
       - name: Run update-gallery.js to update images.json
         run: node js/update-gallery.js
 
+      - name: Configure GitHub token for pushing changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Commit and push if images.json changed
         run: |
           git config --global user.name 'github-actions[bot]'
