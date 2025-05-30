@@ -1,51 +1,59 @@
-name: Update Photo Gallery JSON
+name: Update Photo Gallery
 
 on:
-  push:
-    paths:
-      - 'images/personal_photos/**'
-      - '.github/workflows/update-gallery.yml'
-      - 'js/update-gallery.js'
-      - 'images/personal_photos/images.json'
-      - 'photos.html'
-      - 'styles.css'
-      - 'components/header.html'
-      - 'index.html'
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual triggering
 
 jobs:
-  update-gallery-json:
+  update-gallery:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for proper git diff
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
+        run: npm ci
+
+      - name: Update gallery
+        id: update
         run: |
-          if [ -f package.json ]; then npm install; fi
+          # Run the update script
+          npm run update-gallery
+          # Store the exit code
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
 
-      - name: Install sharp dependency
-        run: npm install sharp
-
-      - name: Run update-gallery.js to update images.json
-        run: node js/update-gallery.js
-
-      - name: Configure GitHub token for pushing changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and push if images.json changed
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet images/personal_photos/images.json; then
-            echo 'No changes to commit.'
-          else
-            git add images/personal_photos/images.json
-            git commit -m 'chore: update images.json [auto]' || echo 'No changes to commit.'
-            git push
-          fi
+      - name: Create Pull Request if changes
+        if: steps.update.outputs.exit_code == 0
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "🤖 Update photo gallery"
+          title: "🤖 Update photo gallery"
+          body: |
+            This PR updates the photo gallery with the latest changes.
+            
+            Changes made:
+            - Updated images.json with latest photos
+            - Converted any unsupported formats to JPG
+            - Updated gallery metadata
+            
+            This is an automated update from the gallery update workflow.
+          branch: update-gallery
+          base: main
+          delete-branch: true
+          labels: |
+            automated pr
+            gallery update
