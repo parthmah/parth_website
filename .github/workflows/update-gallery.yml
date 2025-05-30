@@ -28,6 +28,9 @@ jobs:
         run: |
           if [ -f package.json ]; then npm ci; fi
 
+      - name: Install sharp dependency
+        run: npm install sharp
+
       - name: Run update-gallery.js to update images.json
         run: node js/update-gallery.js
 
