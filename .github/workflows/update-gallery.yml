@@ -6,7 +6,7 @@ on:
       - 'images/personal_photos/**'
       - '.github/workflows/update-gallery.yml'
       - 'js/update-gallery.js'
-      - 'images/images.json'
+      - 'images/personal_photos/images.json'
       - 'photos.html'
       - 'styles.css'
       - 'components/header.html'
@@ -38,10 +38,10 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet images/images.json; then
+          if git diff --quiet images/personal_photos/images.json; then
             echo 'No changes to commit.'
           else
-            git add images/images.json
+            git add images/personal_photos/images.json
             git commit -m 'chore: update images.json [auto]' || echo 'No changes to commit.'
             git push
           fi
