@@ -1,0 +1,283 @@
+/* Gallery Styles */
+
+.gallery-container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    padding-top: calc(var(--header-height) + var(--spacing-md));
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--gallery-gap);
+    margin-top: var(--spacing-md);
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: transform var(--transition-speed) ease, 
+                opacity var(--transition-speed) ease;
+}
+
+.gallery-item.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-image {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform var(--transition-speed) ease;
+}
+
+.lightbox.active .lightbox-image {
+    transform: scale(1);
+}
+
+/* Lightbox Navigation and Controls */
+#lightbox .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--spacing-md);
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+#lightbox .lightbox-button {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    pointer-events: auto;
+    backdrop-filter: blur(4px);
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#lightbox .lightbox-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+#lightbox .lightbox-button:hover {
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+#lightbox .lightbox-button:hover svg {
+    transform: scale(1.1);
+}
+
+#lightbox .lightbox-button:active {
+    transform: scale(0.95);
+}
+
+#lightbox .lightbox-controls {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+    z-index: 1001;
+}
+
+#lightbox .lightbox-control-button {
+    position: relative;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: rgba(255, 255, 255, 0.9);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#lightbox .lightbox-control-button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+#lightbox .lightbox-control-button:hover {
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(1.05);
+}
+
+#lightbox .lightbox-control-button:hover svg {
+    transform: scale(1.1);
+}
+
+#lightbox .lightbox-control-button:active {
+    transform: scale(0.95);
+}
+
+#lightbox .share-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 50%;
+    transform: translateX(50%) translateY(-10px);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    opacity: 0;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+}
+
+#lightbox .lightbox-control-button:hover .share-tooltip {
+    opacity: 1;
+    transform: translateX(50%) translateY(0);
+    pointer-events: auto;
+}
+
+/* Error States */
+.error-message {
+    text-align: center;
+    color: var(--text-color);
+    padding: var(--spacing-lg);
+    background: var(--subtle-color);
+    border-radius: var(--border-radius);
+    margin: var(--spacing-lg) 0;
+}
+
+.gallery-item.error {
+    background-color: var(--subtle-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: var(--spacing-md);
+}
+
+.gallery-item.error::after {
+    content: 'Failed to load image';
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: var(--spacing-sm);
+    }
+
+    .lightbox-button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+
+    .lightbox-control-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: var(--spacing-xs);
+    }
+
+    .lightbox-button {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+    }
+
+    .lightbox-control-button {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+} 

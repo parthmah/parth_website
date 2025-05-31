@@ -7,6 +7,10 @@
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     
+    <!-- Performance optimizations -->
+    <link rel="preload" href="styles/critical.css" as="style">
+    <link rel="preload" href="styles.css" as="style">
+    
     <title>Photos — Parth Maheshwari</title>
     <link rel="icon" type="image/png" href="/fav/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/fav/favicon.svg" />
@@ -14,222 +18,39 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png" />
     <link rel="manifest" href="/fav/site.webmanifest" />
     <link rel="canonical" href="https://parthmah.com/photos">
-    
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Photos — Parth Maheshwari">
+    <meta property="og:description" content="Photo gallery of Parth Maheshwari — Capturing moments through photography">
+    <meta property="og:url" content="https://parthmah.com/photos">
+    <meta property="og:image" content="https://parthmah.com/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Parth Maheshwari">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Photos — Parth Maheshwari">
+    <meta name="twitter:description" content="Photo gallery of Parth Maheshwari — Capturing moments through photography">
+    <meta name="twitter:image" content="https://parthmah.com/images/og-image.jpg">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Photos — Parth Maheshwari",
+        "description": "Photo gallery of Parth Maheshwari — Capturing moments through photography",
+        "url": "https://parthmah.com/photos",
+        "author": {
+            "@type": "Person",
+            "name": "Parth Maheshwari"
+        }
+    }
+    </script>
+
     <!-- Critical CSS -->
-    <style>
-        :root {
-            --bg-color: #FFFFFF;
-            --text-color: #1A1A1A;
-            --accent-color: #3B82F6;
-            --subtle-color: #F3F4F6;
-            --border-color: #E5E7EB;
-            --hover-color: #F3F4F6;
-            --heading-color: #1F2937;
-            --link-color: #2563EB;
-            --content-width: 1200px;
-            --header-height: 80px;
-            --transition-speed: 0.2s;
-            --gallery-gap: 16px;
-        }
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #F9FAFB;
-            --accent-color: #60A5FA;
-            --subtle-color: #2D2D2D;
-            --border-color: #374151;
-            --hover-color: #1F2937;
-            --heading-color: #F3F4F6;
-            --link-color: #93C5FD;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        /* Gallery Styles */
-        .gallery-container {
-            max-width: var(--content-width);
-            margin: 0 auto;
-            padding: 20px;
-            padding-top: calc(var(--header-height) + 20px);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--gallery-gap);
-            margin-top: 20px;
-        }
-
-        .gallery-item {
-            position: relative;
-            aspect-ratio: 1;
-            overflow: hidden;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .gallery-item.loaded {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Lightbox Styles */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .lightbox.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .lightbox-content {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lightbox-image {
-            max-width: 90%;
-            max-height: 90vh;
-            object-fit: contain;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-
-        .lightbox.active .lightbox-image {
-            transform: scale(1);
-        }
-
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .lightbox-button {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 50%;
-            font-size: 24px;
-            transition: background-color 0.3s ease;
-        }
-
-        .lightbox-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 50%;
-            font-size: 24px;
-            transition: background-color 0.3s ease;
-        }
-
-        .lightbox-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 12px;
-            }
-
-            .lightbox-button {
-                padding: 10px 15px;
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 8px;
-            }
-
-            .lightbox-button {
-                padding: 8px 12px;
-                font-size: 18px;
-            }
-        }
-
-        /* Add error message styles */
-        .error-message {
-            text-align: center;
-            color: var(--color-text);
-            padding: var(--spacing-lg);
-            background: var(--color-subtle);
-            border-radius: 8px;
-            margin: var(--spacing-lg) 0;
-        }
-
-        .gallery-item.error {
-            background-color: var(--color-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .gallery-item.error::after {
-            content: 'Failed to load image';
-            opacity: 0.7;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/critical.css">
+    <link rel="stylesheet" href="styles/gallery.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -249,10 +70,22 @@
         <div class="lightbox-content">
             <img class="lightbox-image" id="lightbox-image" src="" alt="">
             <div class="lightbox-nav">
-                <button class="lightbox-button" id="prev-button">←</button>
-                <button class="lightbox-button" id="next-button">→</button>
+                <button class="lightbox-button" id="prev-button" aria-label="Previous image">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="lightbox-button" id="next-button" aria-label="Next image">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
             </div>
-            <button class="lightbox-close" id="close-button">×</button>
+            <div class="lightbox-controls">
+                <button class="lightbox-control-button" id="share-button" aria-label="Share image">
+                    <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                    <span class="share-tooltip">Copy image link</span>
+                </button>
+                <button class="lightbox-control-button" id="close-button" aria-label="Close lightbox">
+                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -264,5 +97,21 @@
     <script src="js/components.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/gallery.js"></script>
+    <script src="js/monitoring.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html> 
