@@ -196,8 +196,8 @@ async function processFiles() {
 // Main function
 async function main() {
     console.log('🔄 Processing gallery images...');
-    const hasChanges = await processFiles();
-    process.exit(hasChanges ? 0 : 1);
+    await processFiles();
+    process.exit(0);
 }
 
 // Run the script
