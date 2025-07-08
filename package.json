@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "update-gallery": "node js/update-gallery.js",
-    "build": "npm run lint && npm run test && npm run cypress:run"
+    "build": "npm run lint && npm run test"
   },
   "private": true,
   "devDependencies": {

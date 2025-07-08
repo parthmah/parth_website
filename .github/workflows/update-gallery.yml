@@ -18,6 +18,10 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for proper git diff
 
+      - name: Ensure lock file is present
+        run: |
+          if [ -f ../package-lock.json ]; then cp ../package-lock.json .; fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
