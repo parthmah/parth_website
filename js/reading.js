@@ -77,10 +77,11 @@ class ReadingDisplay {
     const cachedData = this.getCachedData();
     
     if (cachedData && cachedData.title) {
+      // Clear existing content and show cached data
+      this.container.innerHTML = '';
       this.container.appendChild(this.createBookElement(cachedData));
-    } else {
-      this.container.appendChild(this.createFallbackElement());
     }
+    // If no cached data, keep the fallback content that's already in HTML
   }
 
   // Update with fresh data
@@ -93,13 +94,9 @@ class ReadingDisplay {
       // Save to cache
       this.saveToCache(freshData);
       
-      // Update the display if it's different from cached
-      const cachedData = this.getCachedData();
-      if (!cachedData || cachedData.title !== freshData.title) {
-        // Clear container and show fresh data
-        this.container.innerHTML = '';
-        this.container.appendChild(this.createBookElement(freshData));
-      }
+      // Always update the display with fresh data
+      this.container.innerHTML = '';
+      this.container.appendChild(this.createBookElement(freshData));
     }
   }
 
