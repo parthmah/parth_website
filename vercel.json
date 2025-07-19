@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/photos", "destination": "/photos.html" },
-    { "source": "/blogs", "destination": "/blogs/index.html" }
+    { "source": "/blogs", "destination": "/blogs/index.html" },
+    { "source": "/bookshelf", "destination": "/bookshelf.html" }
   ]
 } 
