@@ -22,13 +22,13 @@ class ReadingDisplay {
 
   createBookElement(bookData) {
     const bookDiv = document.createElement('p');
-    bookDiv.innerHTML = `📚 ${bookData.title} by ${bookData.author}(<a href="/bookshelf">Bookshelf</a>)`;
+    bookDiv.innerHTML = `📚 ${bookData.title} by ${bookData.author} (<a href="/bookshelf">Bookshelf</a>)`;
     return bookDiv;
   }
 
   createFallbackElement() {
     const fallbackDiv = document.createElement('p');
-    fallbackDiv.innerHTML = '📚 Fountainhead by Ayn Rand(<a href="/bookshelf">Bookshelf</a>)';
+    fallbackDiv.innerHTML = '📚 Fountainhead by Ayn Rand (<a href="/bookshelf">Bookshelf</a>)';
     return fallbackDiv;
   }
 

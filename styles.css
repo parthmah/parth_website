@@ -203,7 +203,7 @@ main {
 .about-section h2,
 .current-focus h2 {
     font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
 }
 
 .notfound-container h1 {
@@ -257,6 +257,9 @@ main {
 .current-focus small {
     display: block;
     opacity: 0.7;
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-xs);
+    margin-top: 0;
 }
 
 .focus-items {
@@ -267,10 +270,33 @@ main {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 }
 
 .focus-items p:last-child {
     margin-bottom: 0;
+}
+
+/* Reading container styling */
+#reading-container {
+    margin-bottom: var(--spacing-sm);
+}
+
+#reading-container p {
+    margin-bottom: 0;
+    display: block;
+    line-height: 1.7;
+}
+
+#reading-container a {
+    color: var(--color-link);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+#reading-container a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
 }
 
 /* ========== SOCIAL LINKS ========== */
