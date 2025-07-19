@@ -22,3 +22,6 @@ yarn-error.log*
 # Dependencies
 node_modules/
 yarn.lock 
+
+# Environment variables (keep local for development)
+# .env.local 

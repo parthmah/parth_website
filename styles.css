@@ -537,3 +537,12 @@ main {
 .footer {
     flex-shrink: 0;
 }
+
+/* Gallery Styles */
+
+.gallery-container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    padding-top: calc(var(--header-height) + var(--spacing-md));
+}

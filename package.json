@@ -10,7 +10,8 @@
     "cypress:run": "cypress run",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "update-gallery": "node js/update-gallery.js"
+    "update-gallery": "node js/update-gallery.js",
+    "dev": "npx serve ."
   },
   "private": true,
   "devDependencies": {
@@ -35,5 +36,9 @@
     ">0.2%",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "dependencies": {
+    "@notionhq/client": "^4.0.1",
+    "dotenv": "^17.2.0"
+  }
 }
