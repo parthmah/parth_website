@@ -26,8 +26,8 @@ export default async function handler(req, res) {
           direction: 'ascending'
         },
         {
-          property: 'Title',
-          direction: 'ascending'
+          property: 'Date finished',
+          direction: 'descending'
         }
       ]
     });
@@ -53,9 +53,26 @@ export default async function handler(req, res) {
       };
     });
 
+    // Custom sorting: Reading first, then Completed by date finished descending
+    const sortedBooks = books.sort((a, b) => {
+      // Reading books first
+      if (a.status === 'Reading' && b.status !== 'Reading') return -1;
+      if (a.status !== 'Reading' && b.status === 'Reading') return 1;
+      
+      // For completed books, sort by date finished descending
+      if (a.status === 'Completed' && b.status === 'Completed') {
+        const dateA = new Date(a.dateFinished || 0);
+        const dateB = new Date(b.dateFinished || 0);
+        return dateB - dateA;
+      }
+      
+      // For other statuses, maintain alphabetical order
+      return a.title.localeCompare(b.title);
+    });
+
     res.status(200).json({
-      books,
-      totalBooks: books.length,
+      books: sortedBooks,
+      totalBooks: sortedBooks.length,
       lastUpdated: new Date().toISOString()
     });
   } catch (error) {

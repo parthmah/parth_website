@@ -32,22 +32,35 @@ class BookshelfDisplay {
     // Create status class
     const statusClass = book.status.toLowerCase().replace(/\s+/g, '');
     
-    // Create rating display
-    let ratingDisplay = book.rating;
-    if (book.rating && book.rating.includes('⭐')) {
-      ratingDisplay = book.rating;
-    } else if (book.rating && book.rating !== 'Not yet rated') {
-      ratingDisplay = '⭐'.repeat(parseInt(book.rating.split('⭐')[0])) || book.rating;
+    // Create rating display with stars
+    let ratingDisplay = 'Not yet rated';
+    if (book.rating && book.rating !== 'Not yet rated') {
+      if (book.rating.includes('⭐')) {
+        ratingDisplay = book.rating;
+      } else {
+        const ratingNum = parseInt(book.rating.split('⭐')[0]) || parseInt(book.rating);
+        if (ratingNum && ratingNum > 0) {
+          const stars = '★'.repeat(ratingNum) + '☆'.repeat(5 - ratingNum);
+          ratingDisplay = `<span class="rating-stars">${stars}</span>`;
+        } else {
+          ratingDisplay = book.rating;
+        }
+      }
     }
+    
+    // Format summary with "My thoughts:" prefix
+    const summaryText = book.summary ? `My thoughts: ${book.summary}` : '';
     
     card.innerHTML = `
       <div class="book-cover">
         ${coverHtml}
       </div>
       <div class="book-info">
-        <h3 class="book-title">${book.title}</h3>
-        <p class="book-author">by ${book.author}</p>
-        ${book.summary ? `<p class="book-summary">${book.summary}</p>` : ''}
+        <div class="book-content">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">by ${book.author}</p>
+          ${summaryText ? `<p class="book-summary">${summaryText}</p>` : ''}
+        </div>
         <div class="book-meta">
           <span class="book-status ${statusClass}">${book.status}</span>
           <span class="book-rating">${ratingDisplay}</span>
