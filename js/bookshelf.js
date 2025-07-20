@@ -33,7 +33,7 @@ class BookshelfDisplay {
     const statusClass = book.status.toLowerCase().replace(/\s+/g, '');
     
     // Create rating display with stars
-    let ratingDisplay = 'Not yet rated';
+    let ratingDisplay = '';
     if (book.rating && book.rating !== 'Not yet rated') {
       if (book.rating.includes('⭐')) {
         ratingDisplay = book.rating;
@@ -48,8 +48,8 @@ class BookshelfDisplay {
       }
     }
     
-    // Format summary with "My thoughts:" prefix
-    const summaryText = book.summary ? `My thoughts: ${book.summary}` : '';
+    // Use summary directly without "My thoughts:" prefix
+    const summaryText = book.summary || '';
     
     card.innerHTML = `
       <div class="book-cover">
@@ -57,21 +57,22 @@ class BookshelfDisplay {
       </div>
       <div class="book-info">
         <div class="book-content">
+          <p class="book-author">${book.author}</p>
           <h3 class="book-title">${book.title}</h3>
-          <p class="book-author">by ${book.author}</p>
           ${summaryText ? `<p class="book-summary">${summaryText}</p>` : ''}
         </div>
         <div class="book-meta">
           <span class="book-status ${statusClass}">${book.status}</span>
-          <span class="book-rating">${ratingDisplay}</span>
+          ${ratingDisplay ? `<span class="book-rating">${ratingDisplay}</span>` : ''}
         </div>
       </div>
     `;
     
     // Add click handler to open book link if available
     if (book.url) {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', () => {
+      const coverElement = card.querySelector('.book-cover');
+      coverElement.style.cursor = 'pointer';
+      coverElement.addEventListener('click', () => {
         window.open(book.url, '_blank', 'noopener,noreferrer');
       });
     }
