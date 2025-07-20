@@ -35,10 +35,10 @@ class BookshelfDisplay {
     // Create rating display with stars
     let ratingDisplay = '';
     if (book.rating && book.rating !== 'Not yet rated') {
-      if (book.rating.includes('⭐')) {
+      if (/[🌕🌖🌗🌘🌑]/.test(book.rating)) {
         ratingDisplay = book.rating;
       } else {
-        const ratingNum = parseInt(book.rating.split('⭐')[0]) || parseInt(book.rating);
+        const ratingNum = parseInt(book.rating.split('🌕')[0]) || parseInt(book.rating);
         if (ratingNum && ratingNum > 0) {
           const stars = '★'.repeat(ratingNum) + '☆'.repeat(5 - ratingNum);
           ratingDisplay = `<span class="rating-stars">${stars}</span>`;
