@@ -60,7 +60,6 @@
         .bookshelf-container {
             max-width: var(--content-width);
             margin: 0 auto;
-            text-align: left;
             padding: var(--spacing-md);
             padding-top: calc(var(--header-height) + var(--spacing-md));
         }
@@ -68,14 +67,14 @@
         .bookshelf-grid {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
             gap: var(--spacing-xl);
             margin-top: var(--spacing-lg);
         }
 
-        h1 {
-            text-align: left; 
-            margin-bottom: var(--spacing-lg);
+        .bookshelf-placeholder {
+            font-size: 1.25rem;
+            visibility: hidden;
+            margin-bottom: var(--spacing-md);
         }
 
         .book-card {
@@ -212,7 +211,7 @@
         .loading {
             padding: var(--spacing-xl);
             color: var(--text-color);
-            width: auto;
+            width: 100%;
             display: block;
         }
 
@@ -264,7 +263,7 @@
     <!-- Main content -->
     <main class="bookshelf-container">
         <h1>Bookshelf</h1>
-        
+        <p class="bookshelf-placeholder">A collection of books I've read, am reading, and plan to read.</p>
         <div id="bookshelf-grid" class="bookshelf-grid">
             <div class="loading">Loading bookshelf...</div>
         </div>
