@@ -71,6 +71,10 @@
             margin-top: var(--spacing-lg);
         }
 
+        h1 {
+            margin-bottom: var(--spacing-lg);
+        }
+
         .book-card {
             display: flex;
             flex-direction: row;
@@ -206,6 +210,8 @@
             text-align: center;
             padding: var(--spacing-xl);
             color: var(--text-color);
+            width: 100%;
+            display: block;
         }
 
         .error {
@@ -256,7 +262,6 @@
     <!-- Main content -->
     <main class="bookshelf-container">
         <h1>Bookshelf</h1>
-        <p> </p>
         
         <div id="bookshelf-grid" class="bookshelf-grid">
             <div class="loading">Loading bookshelf...</div>
