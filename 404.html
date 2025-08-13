@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Page not found — Parth Maheshwari's personal website">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    
+    <!-- Performance optimizations -->
+    <link rel="preload" href="styles/critical.css" as="style">
+    <link rel="preload" href="styles.css" as="style">
+    
     <title>404 – Page Not Found | Parth Maheshwari</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
@@ -22,26 +30,79 @@
     <!-- Footer component -->
     <div id="footer-component"></div>
 
-    <script src="/js/theme.js"></script>
-    <script src="/js/components.js"></script>
-    <script src="/js/ui.js"></script>
+    <!-- Critical JavaScript - External theme file to avoid CSP issues -->
+    <script src="js/theme-inline.js"></script>
+    
+    <!-- Mock API for local development -->
+    <script src="js/mock-api.js"></script>
+
+    <!-- Components loading -->
+    <script src="js/components.js"></script>
+
+    <!-- Non-critical JavaScript - Load after page render -->
     <script>
-      // Use the same hover animation as the main site by toggling a class
-      document.querySelectorAll('.home-link').forEach(link => {
-        link.addEventListener('mouseenter', () => {
-          link.classList.add('nav-hover');
+        window.addEventListener('load', function() {
+            // Load UI enhancements
+            const script = document.createElement('script');
+            script.src = '/js/ui.js';
+            script.onload = function() {
+                if (typeof initHoverEffects === 'function') {
+                    initHoverEffects();
+                }
+            };
+            document.head.appendChild(script);
+            
+            // Load and configure the button component
+            loadButtonComponent();
         });
-        link.addEventListener('mouseleave', () => {
-          link.classList.remove('nav-hover');
-        });
-      });
-      // Dynamically load the button component for accessibility and consistency
-      fetch('/components/button.html').then(r => r.text()).then(html => {
-        document.getElementById('return-home-btn').innerHTML = html.replace('{{text}}', 'Return to Homepage').replace('{{ariaLabel}}', 'Return to Homepage');
-        // Make the button a link for navigation
-        const btn = document.querySelector('#return-home-btn .button');
-        btn.addEventListener('click', () => { window.location.href = '/'; });
-      });
+        
+        function loadButtonComponent() {
+            fetch('/components/button.html')
+                .then(response => response.text())
+                .then(html => {
+                    // Replace template variables
+                    const buttonHtml = html
+                        .replace('{{text}}', 'Return to Homepage')
+                        .replace('{{ariaLabel}}', 'Return to Homepage');
+                    
+                    // Insert the button
+                    const buttonContainer = document.getElementById('return-home-btn');
+                    if (buttonContainer) {
+                        buttonContainer.innerHTML = buttonHtml;
+                        
+                        // Add click handler to make the button functional
+                        const button = buttonContainer.querySelector('.button');
+                        if (button) {
+                            button.addEventListener('click', () => {
+                                window.location.href = '/';
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to load button component:', error);
+                    // Fallback: create a simple link if component loading fails
+                    const buttonContainer = document.getElementById('return-home-btn');
+                    if (buttonContainer) {
+                        buttonContainer.innerHTML = '<a href="/" class="button">Return to Homepage</a>';
+                    }
+                });
+        }
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>

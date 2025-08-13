@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    
+    <h2>Test Reading API</h2>
+    <button onclick="testReadingAPI()">Test Reading API</button>
+    <div id="reading-result"></div>
+    
+    <h2>Test Bookshelf API</h2>
+    <button onclick="testBookshelfAPI()">Test Bookshelf API</button>
+    <div id="bookshelf-result"></div>
+    
+    <script>
+        async function testReadingAPI() {
+            const resultDiv = document.getElementById('reading-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/api/reading');
+                console.log('Reading API response:', response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<pre>Success: ${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<pre>Error: ${response.status} ${response.statusText}</pre>`;
+                }
+            } catch (error) {
+                console.error('Reading API error:', error);
+                resultDiv.innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+        
+        async function testBookshelfAPI() {
+            const resultDiv = document.getElementById('bookshelf-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('/api/bookshelf');
+                console.log('Bookshelf API response:', response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<pre>Success: ${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<pre>Error: ${response.status} ${response.statusText}</pre>`;
+                }
+            } catch (error) {
+                console.error('Bookshelf API error:', error);
+                resultDiv.innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>

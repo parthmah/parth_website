@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "update-gallery": "node js/update-gallery.js",
-    "dev": "npx serve ."
+    "build": "node build.js",
+    "dev": "npx serve .",
+    "dev:local": "npx http-server . -p 3000 --cors -a localhost"
   },
   "private": true,
   "devDependencies": {

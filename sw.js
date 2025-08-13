@@ -1,18 +1,18 @@
 // Service Worker for offline support and caching
 
-const CACHE_NAME = 'parthmah-cache-v1';
+const CACHE_NAME = 'parthmah-cache-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/photos.html',
+    '/bookshelf.html',
     '/404.html',
     '/styles/critical.css',
     '/styles/gallery.css',
     '/styles.css',
-    '/js/theme.js',
-    '/js/components.js',
-    '/js/ui.js',
+    '/js/bundle.js',
     '/js/gallery.js',
+    '/js/bookshelf.js',
     '/components/header.html',
     '/components/footer.html',
     '/components/button.html',

@@ -1,4 +1,4 @@
-import { Client } from '@notionhq/client';
+const { Client } = require('@notionhq/client');
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -6,7 +6,7 @@ const notion = new Client({
 
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
         const dateA = new Date(a.dateFinished || 0);
         const dateB = new Date(b.dateFinished || 0);
         return dateB - dateA;
-      }
+        }
       
       // For other statuses, maintain alphabetical order
       return a.title.localeCompare(b.title);
@@ -79,4 +79,4 @@ export default async function handler(req, res) {
     console.error('Error fetching from Notion:', error);
     res.status(500).json({ error: 'Failed to fetch bookshelf data' });
   }
-} 
+}; 

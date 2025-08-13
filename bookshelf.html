@@ -98,18 +98,14 @@
             flex-shrink: 0;
             overflow: hidden;
             position: relative;
-            cursor: pointer;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .book-cover img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform var(--transition-speed) ease;
-        }
-
-        .book-card:hover .book-cover img {
-            transform: scale(1.05);
         }
 
         .book-cover-placeholder {
@@ -118,10 +114,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: var(--text-color);
-            opacity: 0.3;
-            background: var(--subtle-color);
+            background-color: var(--color-subtle);
+            color: var(--color-text);
+            font-size: 3rem;
+            border-radius: var(--border-radius);
         }
 
         .book-info {
@@ -135,97 +131,111 @@
             flex: 1;
         }
 
+        .book-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 var(--spacing-sm) 0;
+            color: var(--color-heading);
+            line-height: 1.3;
+        }
+
         .book-author {
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-color);
-            margin: 0 0 var(--spacing-xs);
+            font-size: 1.1rem;
+            color: var(--color-text);
+            margin: 0 0 var(--spacing-sm) 0;
             opacity: 0.8;
         }
 
-        .book-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin: 0 0 var(--spacing-sm);
-            line-height: 1.2;
-        }
-
         .book-summary {
-            color: var(--text-color);
-            font-size: 0.875rem;
-            line-height: 1.5;
-            margin: 0 0 var(--spacing-md);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--color-text);
+            margin: 0;
             opacity: 0.9;
         }
 
         .book-meta {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
         }
 
         .book-status {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
             font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            text-transform: capitalize;
         }
 
         .book-status.reading {
-            background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
+            background-color: #DBEAFE;
+            color: #1E40AF;
         }
 
         .book-status.completed {
-            background: rgba(34, 197, 94, 0.1);
-            color: #22c55e;
+            background-color: #D1FAE5;
+            color: #065F46;
         }
 
         .book-status.toread {
-            background: rgba(156, 163, 175, 0.1);
-            color: #9ca3af;
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .book-status.unknown {
+            background-color: var(--color-subtle);
+            color: var(--color-text);
         }
 
         .book-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
             font-size: 0.875rem;
-            color: var(--text-color);
-            opacity: 0.7;
+            color: var(--color-text);
         }
 
         .rating-stars {
-            display: inline-flex;
-            gap: 2px;
-        }
-
-        .star {
-            color: #fbbf24;
-            font-size: 0.875rem;
-        }
-
-        .star.empty {
-            color: var(--border-color);
-        }
-
-        .loading {
-            padding: var(--spacing-xl);
-            color: var(--text-color);
-            text-align: center;
-            width: 100%;
-            display: block;
+            color: #F59E0B;
+            letter-spacing: -1px;
         }
 
         .error {
             text-align: center;
             padding: var(--spacing-xl);
-            color: #ef4444;
+            color: var(--color-text);
         }
 
+        .error h3 {
+            margin-bottom: var(--spacing-md);
+            color: #DC2626;
+        }
+
+        .loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--color-text);
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            border-top-color: var(--color-accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: var(--spacing-sm);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
         @media (max-width: 768px) {
             .book-card {
                 flex-direction: column;
@@ -234,55 +244,109 @@
 
             .book-cover {
                 width: 100%;
-                height: 240px;
-            }
-
-            .book-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .book-cover {
                 height: 200px;
             }
 
-            .book-title {
-                font-size: 1.25rem;
-            }
-
-            .book-author {
-                font-size: 0.7rem;
-            }
-
-            .book-summary {
-                font-size: 0.8rem;
+            .book-meta {
+                flex-direction: column;
+                gap: var(--spacing-sm);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header component -->
-    <div id="header-component"></div>
+    <!-- Inlined Header for critical rendering -->
+    <header class="header">
+        <nav class="header__nav">
+            <a href="/" class="header__link" aria-label="Home">🏠</a>
+            <div class="header__nav-links">
+                <a href="/resume.pdf" target="_blank" class="header__resume" aria-label="Resume">📄</a>
+                <a href="/blogs" class="header__blog" aria-label="Blog">✍🏼</a>
+                <a href="/photos" class="header__photos" aria-label="Photos">📸</a>
+                <button id="theme-toggle" aria-label="Toggle dark mode">🌚</button>
+            </div>
+        </nav>
+    </header>
 
     <!-- Main content -->
     <main class="bookshelf-container">
         <h1>Bookshelf</h1>
-        <p class="bookshelf-placeholder">A collection of books I've read, am reading, and plan to read.</p>
-        <div id="bookshelf-grid" class="bookshelf-grid">
-            <div class="loading">Loading bookshelf...</div>
+        
+        <div class="bookshelf-placeholder">Loading...</div>
+        
+        <div class="bookshelf-grid" id="bookshelf-container">
+            <!-- Books will be dynamically inserted here -->
         </div>
     </main>
 
-    <!-- Footer component -->
-    <div id="footer-component"></div>
+    <!-- Inlined Footer for critical rendering -->
+    <footer class="footer">
+        <p class="footer__copyright">&copy; 2025 Parth Maheshwari. All rights reserved.</p>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="js/theme.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/monitoring.js"></script>
-    <script src="js/bookshelf.js"></script>
+    <!-- Critical JavaScript - External theme file to avoid CSP issues -->
+    <script src="js/theme-inline.js"></script>
+    
+    <!-- Mock API for local development -->
+    <script src="js/mock-api.js"></script>
+
+    <!-- Bookshelf JavaScript - Load after page render -->
+    <script>
+        window.addEventListener('load', function() {
+            console.log('Bookshelf page loaded, starting to load bundle...');
+            
+            // Load bookshelf functionality
+            const script = document.createElement('script');
+            script.src = '/js/bundle.js';
+            
+            script.onload = function() {
+                console.log('Bundle loaded on bookshelf page');
+                console.log('Checking for BookshelfDisplay class...');
+                console.log('BookshelfDisplay:', typeof BookshelfDisplay);
+                
+                if (typeof BookshelfDisplay === 'function') {
+                    console.log('BookshelfDisplay class found, creating instance...');
+                    const bookshelfDisplay = new BookshelfDisplay('bookshelf-container');
+                    console.log('Calling displayBookshelf...');
+                    bookshelfDisplay.displayBookshelf();
+                } else {
+                    console.error('BookshelfDisplay class not found');
+                    loadFallbackScripts();
+                }
+            };
+            
+            script.onerror = function() {
+                console.error('Failed to load bundle.js on bookshelf page');
+                loadFallbackScripts();
+            };
+            
+            // Add timeout to prevent infinite waiting
+            setTimeout(function() {
+                if (typeof BookshelfDisplay === 'undefined') {
+                    console.error('Bundle loading timeout on bookshelf page, trying fallback...');
+                    loadFallbackScripts();
+                }
+            }, 5000);
+            
+            document.head.appendChild(script);
+        });
+        
+        function loadFallbackScripts() {
+            console.log('Loading fallback scripts on bookshelf page...');
+            
+            // Load individual scripts as fallback
+            const script = document.createElement('script');
+            script.src = '/js/bookshelf.js';
+            script.onload = function() {
+                console.log('Fallback bookshelf script loaded');
+                if (typeof BookshelfDisplay === 'function') {
+                    const bookshelfDisplay = new BookshelfDisplay('bookshelf-container');
+                    bookshelfDisplay.displayBookshelf();
+                }
+            };
+            document.head.appendChild(script);
+        }
+    </script>
 
     <!-- Service Worker Registration -->
     <script>

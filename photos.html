@@ -56,8 +56,18 @@
     <script defer src="https://speed.vercel.dev/script.js"></script>
 </head>
 <body>
-    <!-- Header component -->
-    <div id="header-component"></div>
+    <!-- Inlined Header for critical rendering -->
+    <header class="header">
+        <nav class="header__nav">
+            <a href="/" class="header__link" aria-label="Home">🏠</a>
+            <div class="header__nav-links">
+                <a href="/resume.pdf" target="_blank" class="header__resume" aria-label="Resume">📄</a>
+                <a href="/blogs" class="header__blog" aria-label="Blog">✍🏼</a>
+                <a href="/photos" class="header__photos" aria-label="Photos">📸</a>
+                <button id="theme-toggle" aria-label="Toggle dark mode">🌚</button>
+            </div>
+        </nav>
+    </header>
 
     <!-- Main content -->
     <main class="gallery-container">
@@ -91,15 +101,28 @@
         </div>
     </div>
 
-    <!-- Footer component -->
-    <div id="footer-component"></div>
+    <!-- Inlined Footer for critical rendering -->
+    <footer class="footer">
+        <p class="footer__copyright">&copy; 2025 Parth Maheshwari. All rights reserved.</p>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="js/theme.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/gallery.js"></script>
-    <script src="js/monitoring.js"></script>
+    <!-- Critical JavaScript - External theme file to avoid CSP issues -->
+    <script src="js/theme-inline.js"></script>
+
+    <!-- Gallery JavaScript - Load after page render -->
+    <script>
+        window.addEventListener('load', function() {
+            // Load gallery functionality
+            const script = document.createElement('script');
+            script.src = '/js/gallery.js';
+            script.onload = function() {
+                if (typeof initGallery === 'function') {
+                    initGallery();
+                }
+            };
+            document.head.appendChild(script);
+        });
+    </script>
 
     <!-- Service Worker Registration -->
     <script>

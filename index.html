@@ -68,14 +68,34 @@
     <!-- Analytics -->
     <script defer data-domain="parthmah.com" src="https://analytics.parthmah.com/js/script.js"></script>
     <script defer src="https://vercel.com/analytics/script.js"></script>
-    <script defer src="https://speed.vercel.dev/script.js"></script>
-
-    <!-- Content Security Policy (CSP) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://parthmah.com data:; script-src 'self' https://analytics.parthmah.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://analytics.parthmah.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+    
+    <!-- Content Security Policy (CSP) - Conditional based on environment -->
+    <script>
+        // Disable CSP for localhost development
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Localhost detected - CSP disabled for development');
+        } else {
+            // Production CSP
+            const meta = document.createElement('meta');
+            meta.httpEquiv = 'Content-Security-Policy';
+            meta.content = "default-src 'self'; img-src 'self' https://parthmah.com data:; script-src 'self' 'unsafe-inline' https://analytics.parthmah.com https://vercel.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://analytics.parthmah.com https://vercel.com; object-src 'none'; base-uri 'self'; form-action 'self';";
+            document.head.appendChild(meta);
+        }
+    </script>
 </head>
 <body>
-    <!-- Header component -->
-    <div id="header-component"></div>
+    <!-- Inlined Header for critical rendering -->
+    <header class="header">
+        <nav class="header__nav">
+            <a href="/" class="header__link" aria-label="Home">🏠</a>
+            <div class="header__nav-links">
+                <a href="/resume.pdf" target="_blank" class="header__resume" aria-label="Resume">📄</a>
+                <a href="/blogs" class="header__blog" aria-label="Blog">✍🏼</a>
+                <a href="/photos" class="header__photos" aria-label="Photos">📸</a>
+                <button id="theme-toggle" aria-label="Toggle dark mode">🌚</button>
+            </div>
+        </nav>
+    </header>
 
     <!-- Main content -->
     <main>
@@ -123,15 +143,114 @@
 
     </main>
 
-    <!-- Footer component -->
-    <div id="footer-component"></div>
+    <!-- Inlined Footer for critical rendering -->
+    <footer class="footer">
+        <p class="footer__copyright">&copy; 2025 Parth Maheshwari. All rights reserved.</p>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="js/theme.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/monitoring.js"></script>
-    <script src="js/reading.js"></script>
+    <!-- Critical JavaScript - External theme file to avoid CSP issues -->
+    <script src="js/theme-inline.js"></script>
+    
+    <!-- Mock API for local development -->
+    <script src="js/mock-api.js"></script>
+
+    <!-- Non-critical JavaScript - Load after page render -->
+    <script>
+        // Defer non-critical operations until after page load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, starting to load bundle...');
+            
+            // Load bundled JavaScript for better performance
+            const script = document.createElement('script');
+            script.src = '/js/bundle.js';
+            
+            script.onload = function() {
+                console.log('Bundle loaded successfully');
+                console.log('Checking available classes...');
+                console.log('ReadingDisplay:', typeof ReadingDisplay);
+                console.log('BookshelfDisplay:', typeof BookshelfDisplay);
+                console.log('initHoverEffects:', typeof initHoverEffects);
+                console.log('initSmoothScroll:', typeof initSmoothScroll);
+                
+                // Initialize non-critical functionality
+                if (typeof initHoverEffects === 'function') {
+                    console.log('Initializing hover effects...');
+                    initHoverEffects();
+                } else {
+                    console.error('initHoverEffects function not found');
+                }
+                
+                if (typeof initSmoothScroll === 'function') {
+                    console.log('Initializing smooth scroll...');
+                    initSmoothScroll();
+                } else {
+                    console.error('initSmoothScroll function not found');
+                }
+                
+                // Initialize reading display after a delay to avoid blocking LCP
+                setTimeout(function() {
+                    console.log('Attempting to initialize ReadingDisplay...');
+                    if (typeof ReadingDisplay === 'function') {
+                        console.log('ReadingDisplay class found, creating instance...');
+                        const readingDisplay = new ReadingDisplay('reading-container');
+                        readingDisplay.displayImmediately();
+                        // Update with fresh data after page is fully loaded
+                        setTimeout(function() {
+                            console.log('Updating reading display with fresh data...');
+                            readingDisplay.updateWithFreshData();
+                        }, 1000);
+                    } else {
+                        console.error('ReadingDisplay class not found');
+                        // Fallback: try to load individual files
+                        loadFallbackScripts();
+                    }
+                }, 500);
+            };
+            
+            script.onerror = function() {
+                console.error('Failed to load bundle.js, trying fallback...');
+                loadFallbackScripts();
+            };
+            
+            // Add timeout to prevent infinite waiting
+            setTimeout(function() {
+                if (typeof ReadingDisplay === 'undefined') {
+                    console.error('Bundle loading timeout, trying fallback...');
+                    loadFallbackScripts();
+                }
+            }, 5000);
+            
+            document.head.appendChild(script);
+        });
+        
+        function loadFallbackScripts() {
+            console.log('Loading fallback scripts...');
+            
+            // Load individual scripts as fallback
+            const scripts = [
+                '/js/reading.js',
+                '/js/bookshelf.js',
+                '/js/ui.js',
+                '/js/monitoring.js'
+            ];
+            
+            scripts.forEach((src, index) => {
+                setTimeout(() => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = function() {
+                        console.log(`Fallback script loaded: ${src}`);
+                        if (src.includes('reading.js') && typeof ReadingDisplay === 'function') {
+                            const readingDisplay = new ReadingDisplay('reading-container');
+                            readingDisplay.displayImmediately();
+                            setTimeout(() => readingDisplay.updateWithFreshData(), 1000);
+                        }
+                    };
+                    document.head.appendChild(script);
+                }, index * 500);
+            });
+        }
+    </script>
 
     <!-- Service Worker Registration -->
     <script>
