@@ -4,5 +4,8 @@
     { "source": "/blogs", "destination": "/blogs/index.html" },
     { "source": "/bookshelf", "destination": "/bookshelf.html" },
     { "source": "/test-api", "destination": "/test-api.html" }
-  ]
+  ],
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": ".",
+  "installCommand": "npm install"
 } 

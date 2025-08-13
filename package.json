@@ -12,6 +12,7 @@
     "lint:fix": "eslint . --fix",
     "update-gallery": "node js/update-gallery.js",
     "build": "node build.js",
+    "vercel-build": "node build.js",
     "dev": "npx serve .",
     "dev:local": "npx http-server . -p 3000 --cors -a localhost"
   },
@@ -32,7 +33,7 @@
     "sharp-heic": "^0.0.1-security"
   },
   "engines": {
-    "node": ">=18.17.0"
+    "node": "18.x"
   },
   "browserslist": [
     ">0.2%",
