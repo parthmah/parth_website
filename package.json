@@ -33,7 +33,7 @@
     "sharp-heic": "^0.0.1-security"
   },
   "engines": {
-    "node": ">=25.1.0"
+    "node": "22.x"
   },
   "browserslist": [
     ">0.2%",
