@@ -14,8 +14,8 @@ A minimalist, responsive personal website built with HTML, CSS, and JavaScript.
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+- Node.js (v25.1.0 or newer)
+- npm (v11 or newer)
 
 ### Setup
 
